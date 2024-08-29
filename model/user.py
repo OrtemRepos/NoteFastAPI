@@ -1,7 +1,13 @@
+from datetime import datetime
 from pydantic import BaseModel, Field, EmailStr
+
 
 class User(BaseModel):
     id: int
-    name: str = Field(min_length=3, max_length=20)
-    email: EmailStr
-    password: str = Field(min_length=8, max_length=255)
+    email: str
+    username: EmailStr
+    register_at: datetime
+    hashed_password: str
+    is_active: bool
+    is_superuser: bool
+    is_verified: bool

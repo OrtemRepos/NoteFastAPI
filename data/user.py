@@ -1,16 +1,18 @@
-from __init__ import connect
-from model.user import User
-from sqlalchemy import text
+from datetime import datetime
+from sqlalchemy import MetaData, Table, Column, Integer, String, TIMESTAMP, Boolean
 
-connect.execute(text(
-    '''
-        CREATE TABLE IF NOT EXISTS users (
-            id SERIAL PRIMARY KEY,
-            name VARCHAR(20) NOT NULL,
-            email VARCHAR(255) NOT NULL UNIQUE,
-            password VARCHAR(255) NOT NULL
-        )
-    '''
-))
-connect.commit()
 
+metadata = MetaData()
+
+user_tabel = Table(
+    'user',
+    metadata,
+    Column("id", Integer, primary_key=True),
+    Column("email", String, nullable=False),
+    Column("username", String(20), nullable=False),
+    Column("register_at", TIMESTAMP, default=datetime.utcnow),
+    Column("hashed_password", String, nullable=False),
+    Column("is_active", Boolean, default=True, nullable=False),
+    Column("is_superuser", Boolean, default=False, nullable=False),
+    Column("is_verified", Boolean, default=False, nullable=False)  
+)
