@@ -1,44 +1,18 @@
-from datetime import datetime
-
-
-from sqlalchemy import (
-    MetaData,
-    Column,
-    select,
-    ForeignKey,
-    TIMESTAMP,
-    Text,
-    String,
-    Integer
-)
+from sqlalchemy.orm import mapper, Mapped, mapped_column
+from  sqlalchemy import ForeignKey
 from sqlalchemy.ext.asyncio import AsyncSession
-from templates.database import get_async_session
+from src.templates.database import id_primary, str_50, str_255, Base, create_at, update_at
+
+from src.schema.note import NoteCreate, NoteRead
+from src.model.model import Note
 
 
-from user import user_tabel
-from model.note import Note as Model
-from templates.database import Base
 
-
-metadata = MetaData()
-
-class Note(Base):
-    __tablename__ = 'note'
-    metadata = metadata
-    
-    id = Column(Integer, primary_key=True)
-    title = Column(String(50), nullable=False)
-    content = Column(Text())
-    create_at = Column(TIMESTAMP, default=datetime.utcnow)
-    update_at = Column(TIMESTAMP, default=datetime.utcnow, onupdate=datetime.utcnow)
-    author_id = Column(Integer, ForeignKey(user_tabel.c.id))
-
-
-def model_to_dict(model: Model) -> dict:
+def model_to_dict(model: NoteCreate) -> dict:
     return model.model_dump()
 
 
-def row_to_model(row: dict) -> Model:
+def row_to_model(row: dict) -> NoteCreate:
     title, content, author_id = row
     return Model(title=title, content=content, author_id=author_id)
 

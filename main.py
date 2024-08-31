@@ -35,8 +35,8 @@ app.include_router(
 )
 app.include_router(
     fastapi_users.get_users_router(UserRead, UserUpdate),
-    prefix="/users",
-    tags=["users"],
+    prefix="/user",
+    tags=["user"],
 )
 app.include_router(user.router)
 
