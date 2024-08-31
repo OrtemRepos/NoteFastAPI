@@ -1,16 +1,15 @@
+import datetime
 import os
-from typing import AsyncGenerator, TYPE_CHECKING
 from datetime import datetime
-from templates.database import get_async_session
+from typing import TYPE_CHECKING, AsyncGenerator
 
 from fastapi import Depends
 from fastapi_users.db import SQLAlchemyBaseUserTable, SQLAlchemyUserDatabase
-from sqlalchemy import Column, String, TIMESTAMP, Boolean, Integer
+from sqlalchemy import TIMESTAMP, Boolean, Column, Integer, String
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import DeclarativeBase
+from templates.database import Base
+from templates.database import get_async_session
 
-class Base(DeclarativeBase):
-    pass
 
 
 
@@ -23,7 +22,6 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     is_active: bool = Column(Boolean, default=True, nullable=False)
     is_superuser: bool = Column(Boolean, default=False, nullable=False)
     is_verified: bool = Column(Boolean, default=False, nullable=False)
-
 
 async def get_user_db(session: AsyncSession = Depends(get_async_session)):
     yield SQLAlchemyUserDatabase(session, User)

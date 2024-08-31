@@ -1,15 +1,19 @@
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, TIMESTAMP, Text, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
+from pydantic import BaseModel, Field
 
-Base = declarative_base()
 
-class Note(Base):
-    __tablename__ = "note"
+class NoteCreate(BaseModel):
+    title: str
+    content: str
+    create_at: datetime
+    update_at: datetime
+    author_id: int
 
-    id = Column(Integer, primary_key=True)
-    title = Column(String(50), nullable=False)
-    content = Column(Text())
-    create_at = Column(TIMESTAMP, default=datetime.utcnow)
-    update_at = Column(TIMESTAMP, default=datetime.utcnow, onupdate=datetime.utcnow)
-    author_id = Column(Integer, ForeignKey("user.id"), nullable=False)
+
+class NoteRead(BaseModel):
+    id: int
+    title: str
+    content: str
+    create_at: datetime
+    update_at: datetime
+    author_id: int
