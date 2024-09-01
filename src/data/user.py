@@ -1,14 +1,13 @@
-import asyncio
 import contextlib
 
-from sqlalchemy import select
-from src.templates.database import async_session_maker
-
-from src.auth.database import get_async_session, get_user_db
 from fastapi_users.exceptions import UserAlreadyExists
+from sqlalchemy import select
+
+from src.auth.database import User
+from src.auth.database import get_async_session, get_user_db
 from src.auth.manager import get_user_manager
 from src.auth.schemas import UserCreate, UserRead
-from src.auth.database import User
+from src.templates.database import async_session_maker
 
 
 def orm_to_user(orm_user) -> UserRead:
@@ -20,10 +19,9 @@ def user_to_dict(user: UserCreate) -> dict:
 
 
 async def get_one(id_user: int) -> UserRead:
-    state = select(User).where(User.id == id_user)
     async with async_session_maker() as session:
-        result = await session.execute(state)
-    return orm_to_user(result.scalars().first())
+        result = await session.get_one(User, id=id_user)
+    return orm_to_user(result)
 
 
 async def get_all() -> list[UserRead]:
@@ -47,3 +45,4 @@ async def create_user(user: UserCreate):
                     print(f"User created {user}")
     except UserAlreadyExists:
         print(f"User {user.email} already exists")
+
