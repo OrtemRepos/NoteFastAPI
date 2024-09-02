@@ -12,14 +12,20 @@ DATABASE_URL = (
 )
 
 id_primary = Annotated[int, mapped_column(primary_key=True)]
-create_at = Annotated[datetime.datetime, mapped_column(server_default=text("TIMEZONE('utc', now()"))]
-update_at = Annotated[datetime.datetime, mapped_column(server_default=text("TIMEZONE('utc', now()"))]
+create_at = Annotated[
+    datetime.datetime, mapped_column(server_default=text("TIMEZONE('utc', now()"))
+]
+update_at = Annotated[
+    datetime.datetime, mapped_column(server_default=text("TIMEZONE('utc', now()"))
+]
 str_255 = Annotated[str, 255]
 str_50 = Annotated[str, 50]
 
 
 engine = create_async_engine(DATABASE_URL)
-async_session_maker = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+async_session_maker = async_sessionmaker(
+    engine, class_=AsyncSession, expire_on_commit=False
+)
 
 
 async def init_models():

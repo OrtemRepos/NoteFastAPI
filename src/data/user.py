@@ -45,4 +45,3 @@ async def create_user(user: UserCreate):
                     print(f"User created {user}")
     except UserAlreadyExists:
         print(f"User {user.email} already exists")
-
