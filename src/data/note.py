@@ -1,3 +1,4 @@
+import data
 from schema.note import NoteCreate, NoteRead
 from templates.database import async_session_maker
 from model.model import Note
@@ -16,7 +17,7 @@ async def get_one(note_id: int, author_id: int) -> NoteRead:
         note = await session.get(Note, note_id).filter_by(author_id=author_id).scalar().first()
         return orm_to_model(note)
 
-async def get_all(author_id: int) -> list[NoteRead]:
+async def get_all(note_id: int, user_id: int) -> list[NoteRead]:
     async with async_session_maker() as session:
         notes = await session.execute(select(Note).where(Note.author_id == user_id))
         return [orm_to_model(note) for note in notes]

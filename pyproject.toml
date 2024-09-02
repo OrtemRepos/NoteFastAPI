@@ -13,8 +13,9 @@ asyncpg = "^0.29.0"
 python-dotenv = "^1.0.1"
 fastapi-users = {extras = ["sqlalchemy"], version = "^13.0.0"}
 alembic = "^1.13.2"
-psycopg2 = "^2.9.9"
 uvicorn = "^0.30.6"
+psycopg2-binary = "^2.9.9"
+black = "^24.8.0"
 
 
 [build-system]
