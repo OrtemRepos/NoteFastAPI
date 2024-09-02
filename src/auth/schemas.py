@@ -1,6 +1,5 @@
 from fastapi_users import schemas
 import datetime
-from pydantic import Field
 
 
 class UserRead(schemas.BaseUser[int]):
@@ -11,8 +10,9 @@ class UserRead(schemas.BaseUser[int]):
 
 class UserCreate(schemas.BaseUserCreate):
     username: str
-    register_at: datetime.datetime = Field(default=datetime.datetime.now(datetime.UTC))
+    register_at: datetime.datetime | None
 
 
 class UserUpdate(schemas.BaseUserUpdate):
     username: str
+    update_at: datetime.datetime | None

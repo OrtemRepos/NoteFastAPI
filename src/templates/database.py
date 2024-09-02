@@ -6,18 +6,13 @@ from config import PG_USER, PG_PASSWORD, PG_HOST, PG_PORT, PG_DATABASE
 from typing import AsyncGenerator, Annotated
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import mapped_column
+from sqlalchemy import TIMESTAMP
 
 DATABASE_URL = (
     f"postgresql+asyncpg://{PG_USER}:{PG_PASSWORD}@{PG_HOST}:{PG_PORT}/{PG_DATABASE}"
 )
 
 id_primary = Annotated[int, mapped_column(primary_key=True)]
-create_at = Annotated[
-    datetime.datetime, mapped_column(server_default=text("TIMEZONE('utc', now()"))
-]
-update_at = Annotated[
-    datetime.datetime, mapped_column(server_default=text("TIMEZONE('utc', now()"))
-]
 str_255 = Annotated[str, 255]
 str_50 = Annotated[str, 50]
 
