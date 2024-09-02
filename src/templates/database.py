@@ -2,7 +2,7 @@ import datetime
 
 from sqlalchemy import text
 
-from src.config import PG_USER, PG_PASSWORD, PG_HOST, PG_PORT, PG_DATABASE
+from config import PG_USER, PG_PASSWORD, PG_HOST, PG_PORT, PG_DATABASE
 from typing import AsyncGenerator, Annotated
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import mapped_column

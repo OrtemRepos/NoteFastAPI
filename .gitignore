@@ -3,4 +3,4 @@
 **.env
 /qodana.yaml
 **/.idea
-
+/.venv

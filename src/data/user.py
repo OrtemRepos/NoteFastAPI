@@ -3,11 +3,11 @@ import contextlib
 from fastapi_users.exceptions import UserAlreadyExists
 from sqlalchemy import select
 
-from src.auth.database import User
-from src.auth.database import get_async_session, get_user_db
-from src.auth.manager import get_user_manager
-from src.auth.schemas import UserCreate, UserRead
-from src.templates.database import async_session_maker
+from auth.database import User
+from auth.database import get_async_session, get_user_db
+from auth.manager import get_user_manager
+from auth.schemas import UserCreate, UserRead
+from templates.database import async_session_maker
 
 
 def orm_to_user(orm_user) -> UserRead:

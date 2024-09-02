@@ -1,4 +1,4 @@
-from src.service import note as service
+from service import note as service
 
 from fastapi import APIRouter
 

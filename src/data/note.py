@@ -1,6 +1,6 @@
-from src.schema.note import NoteCreate, NoteRead
-from src.templates.database import async_session_maker
-from src.model.model import Note
+from schema.note import NoteCreate, NoteRead
+from templates.database import async_session_maker
+from model.model import Note
 
 from sqlalchemy import select
 

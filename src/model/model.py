@@ -1,7 +1,7 @@
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
 from sqlalchemy import ForeignKey, relationship
 
-from src.templates.database import str_50, id_primary, create_at, update_at, str_255
+from templates.database import str_50, id_primary, create_at, update_at, str_255
 from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase
 
 class Base(DeclarativeBase):
