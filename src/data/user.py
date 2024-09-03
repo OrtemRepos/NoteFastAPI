@@ -29,7 +29,7 @@ async def create_user(user: UserCreate) -> UserRead | None:
                     print(f"User created {user}")
                     return UserRead.model_validate(user)
     except UserAlreadyExists:
-        print(f"User {user.email} already exists")
+        print(f"User {user.email} alreadyExists")
 
 
 async def get_all() -> list[UserRead | None]:

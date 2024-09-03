@@ -1,34 +1,55 @@
-import data
-import fastapi_users
-from fastapi_users import FastAPIUsers
-from auth.manager import get_user_manager
+from urllib import response
+
+from tomlkit import boolean
 from model.model import User
-from auth.auth import auth_backend
-from schema.note import NoteCreate
+from schema.note import NoteCreate, NoteRead, NoteUpdate
 from service import note as service
+from auth.auth import current_active_user
+from fastapi import APIRouter, Depends, status, Response
 
-from fastapi import APIRouter, Depends
-
-route = APIRouter(prefix="/note", tags=["Note"])
-
-fastapi_users = FastAPIUsers[User, int](  # type: ignore
-    get_user_manager,
-    [auth_backend],
-)
-
-current_active_user = fastapi_users.current_user(active=True)
+router = APIRouter(prefix="/note", tags=["note"])
 
 
-@route.get("/{id_note}")
-async def get_note(id_note: int, user: User = Depends(current_active_user)):
-    return await service.get_note(id_note, user.id)
 
+@router.post("/",
+            response_model=NoteRead,
+            status_code=status.HTTP_201_CREATED,
+            name="note:create",
+            responses={status.HTTP_201_CREATED: {"model": NoteRead}}
+            )
+async def create_note(
+    note: NoteCreate,
+    user: User = Depends(current_active_user),
+):
+    return await service.create_note(note, author_id = user.id)
 
-@route.get("/")
+@router.get("/",
+           response_model=list[NoteRead],
+           status_code=status.HTTP_200_OK,
+           name="note:get_all_notes_for_current_user",
+           responses={status.HTTP_401_UNAUTHORIZED: {"Disription": "Not authorized"}}
+           )
 async def get_notes(user: User = Depends(current_active_user)):
     return await service.get_notes(user.id)
 
+@router.get("/{note_id}",
+           status_code=status.HTTP_200_OK,
+           name="note:get_note_for_current_user",
+           responses={status.HTTP_401_UNAUTHORIZED: {"Disription": "Not authorized"}})
+async def get_note(note_id: int, user: User = Depends(current_active_user)) -> NoteRead:
+    return await service.get_note(note_id, user.id)
 
-@route.post("/")
-async def create_note(note: NoteCreate, user: User = Depends(current_active_user)):
-    return await service.create_note(note)
+
+@router.put("/{note_id}",
+           status_code=status.HTTP_200_OK,
+           name="note:update_note_for_current_user",
+           responses={status.HTTP_401_UNAUTHORIZED: {"Disription": "Not authorized"}})
+async def update_note(note_id: int, note: NoteUpdate, user: User = Depends(current_active_user)) -> bool:
+    return await service.update_note(note_id, note, user.id)
+
+@router.delete("/{note_id}",
+              status_code=status.HTTP_200_OK,
+              name="note:delete_note_for_current_user",
+              responses={status.HTTP_401_UNAUTHORIZED: {"Disription": "Not authorized"}})
+async def delete_note(note_id: int, user: User = Depends(current_active_user)) -> bool:
+    return await service.delete_note(note_id, user.id)

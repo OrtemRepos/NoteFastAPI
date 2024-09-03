@@ -1,5 +1,4 @@
 from fastapi import FastAPI, Depends
-import fastapi_users
 from auth.database import User
 from auth.auth import (
     auth_backend,
@@ -8,7 +7,7 @@ from auth.auth import (
     current_super_user,
 )
 from auth.schemas import UserRead, UserCreate, UserUpdate
-from web import user
+from web import user, note
 
 app = FastAPI()
 app.include_router(
@@ -37,6 +36,9 @@ app.include_router(
     tags=["user"],
 )
 app.include_router(user.router)
+app.include_router(
+    note.router
+)
 
 
 @app.get("/protected-route")

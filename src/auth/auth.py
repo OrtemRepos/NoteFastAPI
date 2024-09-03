@@ -24,7 +24,7 @@ auth_backend = AuthenticationBackend(
 )
 
 
-fastapi_users = FastAPIUsers[User, int]( # type: ignore
+fastapi_users = FastAPIUsers[User, int](  # type: ignore
     get_user_manager,
     [auth_backend],
 )

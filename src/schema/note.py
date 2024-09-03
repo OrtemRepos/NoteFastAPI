@@ -1,17 +1,15 @@
-import asyncio
 from datetime import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class NoteCreate(BaseModel):
     title: str
     content: str
-    author_id: int
-    create_at: datetime | None
-    update_at: datetime | None
+    
+    model_config = ConfigDict(from_attributes=True)
 
 
-class NoteRead(BaseModel):
+class NoteRead(NoteCreate):
     id: int
     author_id: int
     title: str
@@ -20,5 +18,5 @@ class NoteRead(BaseModel):
     update_at: datetime | None
 
 
-class NoteUpdate(NoteRead):
-    update_at: datetime | None
+class NoteUpdate(NoteCreate):
+    update_at: datetime | None 
